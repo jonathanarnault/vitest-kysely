@@ -1,0 +1,1 @@
+# Kysely Plugin for Vitest

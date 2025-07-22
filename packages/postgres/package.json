@@ -1,0 +1,25 @@
+{
+	"name": "@vitest-kysely/postgres",
+	"type": "module",
+	"version": "0.1.0",
+	"author": "Jonathan ARNAULT <jonathan@arnault.dev>",
+	"repository": {
+		"type": "https",
+		"url": "https://github.com/jonathanarnault/vitest-kysely"
+	},
+	"description": "A plugin to run postgres unit tests with Kysely using Vitest.",
+	"scripts": {
+		"build": "tsc --build --force tsconfig.build.json",
+		"test:unit": "vitest run",
+		"test:unit:watch": "vitest watch --browser.headless",
+		"typecheck": "tsc --noEmit"
+	},
+	"exports": {
+		"./*": "./dist/*.js"
+	},
+	"license": "MIT",
+	"dependencies": {},
+	"peerDependencies": {
+		"vitest": "^3.1.3"
+	}
+}

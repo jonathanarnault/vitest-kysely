@@ -1,0 +1,13 @@
+# NPM
+/node_modules
+**/node_modules
+
+# Build
+**/dist
+**/.turbo
+**/tsconfig.tsbuildinfo
+**/tsconfig.*.tsbuildinfo
+
+# Misc
+**/.DS_Store
+**/*.pem
