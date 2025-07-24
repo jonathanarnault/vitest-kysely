@@ -10,8 +10,6 @@
 	"description": "A plugin to run postgres unit tests with Kysely using Vitest.",
 	"scripts": {
 		"build": "tsc --build --force tsconfig.build.json",
-		"test:unit": "vitest run",
-		"test:unit:watch": "vitest watch --browser.headless",
 		"typecheck": "tsc --noEmit"
 	},
 	"exports": {
