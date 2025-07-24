@@ -1,0 +1,87 @@
+name: Check
+on:
+  workflow_call:
+  push:
+    branches:
+      - main
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  checks: write
+
+jobs:
+  lint:
+    name: Lint & Typecheck
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: ${{ !github.event.pull_request.draft || github.event_name == 'push' }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Download deps
+        run: npm install
+
+      - name: Typecheck
+        run: npx turbo run --ui=stream typecheck
+
+      - name: Lint
+        run: npx turbo run --ui=stream lint:check
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: ${{ !github.event.pull_request.draft || github.event_name == 'push' }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Download deps
+        run: npm install
+
+      - name: Test
+        run: npx turbo run --ui=stream test:unit
+
+  build:
+    name: Build
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    if: ${{ !github.event.pull_request.draft || github.event_name == 'push' }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Download deps
+        run: npm install
+
+      - name: Build
+        run: npx turbo run --ui=stream build
